@@ -1,0 +1,38 @@
+services:
+  # ============================================================================
+  # BACKEND WEB SERVICE (NODE.JS + EXPRESS + TYPESCRIPT)
+  # ============================================================================
+  - type: web
+    name: portal-api
+    env: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm run seed:prod && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: portal-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      - key: CORS_ORIGIN
+        value: "*" # Altere para o domínio final do seu frontend na Vercel
+
+databases:
+  # ============================================================================
+  # BANCO DE DADOS POSTGRESQL
+  # ============================================================================
+  - name: portal-db
+    databaseName: portal_solicitacoes
+    user: portal_user
+    region: oregon
+    plan: free
