@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express, { type Express } from 'express';
 import helmet from 'helmet';
+import './types/express.d';
 import { env } from './config/env';
 import { errorMiddleware, notFoundMiddleware } from './middlewares/error.middleware';
 import { routes } from './routes';
